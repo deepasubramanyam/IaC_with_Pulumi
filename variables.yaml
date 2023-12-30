@@ -1,0 +1,53 @@
+vpc_name: my-staging-vpc
+
+#IAM account id
+account_id: "********"
+
+#Bastion EC2
+instancetype: t3.micro
+instance_name: bastion
+
+#Web Server 
+webserver_instancetype: t3.medium
+webserver_instancename: EKSServer
+IAM_Role: new-role-test
+
+#RDS
+rdssnapshotname: pulumi-staging
+rdsusername: staging
+rdspassword: "*****"
+rdsinstance_class: db.r5.large
+rdsstorage_type: "gp3"
+rds_engine: postgres
+
+#ElasticCache
+redisNodeType: cache.r5.large
+
+#RabbitMQ
+rabbitMQ_engine_version: 3.9.27
+rabbitMQ_hostinstance_type: mq.t3.micro
+rabbitMQ_username: stagingopsuser
+rabbitMQ_password: PulumiIac@123
+rabbitMQ_broker_name: PulumiMQ
+rabbitMQ_cloudwatch_enabled: False
+
+#ElasticSearch
+ES_clustername: elasticsearch-cluster
+ES_version: "7.7"
+ES_instance_type: r5.large.elasticsearch
+
+#EKS
+cluster_name: pulumi-staging
+eks_version: "1.27"
+
+#EKS Nodegroup
+nodegroup_ami_type: "BOTTLEROCKET_x86_64"
+nodegroup_instance_type: "c6a.4xlarge"
+
+#EFS
+status: True
+efs_Name: staging-attachments
+
+#Lambda
+lambda_python_runtime: python3.8
+lambda_function_code_path: jenkins-deployment.py
