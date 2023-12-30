@@ -313,7 +313,7 @@ WS_instance = aws.ec2.Instance(webserver_instancename,
                values=["hvm"]
            )
        ],
-       owners=["099720109477"]  # Canonical
+       owners=["*************"]  # Canonical
    ).id,
    subnet_id=private_subnets[0].id,
    vpc_security_group_ids=[EKS_security_group.id],  # Associate security group with instance
@@ -951,7 +951,7 @@ eks_cluster = aws.eks.Cluster(
 oidc_provider = aws.iam.OpenIdConnectProvider("oidc-provider",
     url=pulumi.Output.all(eks_cluster.identities[0]['oidcs'][0]['issuer']).apply(lambda args: f"{args[0]}"),
     client_id_lists=["sts.amazonaws.com"],
-    thumbprint_lists=["9e99a48a9960b14926bb7f3b02e22da2b0ab7280"]
+    thumbprint_lists=["*****************"]
 )
 
 # Export the OIDC issuer URL 
@@ -1000,12 +1000,12 @@ for idx, policy_arn in enumerate(attach_policy_arns):
 
 # Create EKS Nodegroup
 nodegroup_0 = aws.eks.NodeGroup(
-    "ng-0-production-eksworkers",
+    "ng-0-staging-eksworkers",
     cluster_name=cluster_name,
     ami_type=nodegroup_ami_type,
     instance_types=[nodegroup_instance_type],
     disk_size=200,
-    labels={"env": "production"},
+    labels={"env": "staging"},
     tags={"costid": "devops"},
     scaling_config=aws.eks.NodeGroupScalingConfigArgs(
         desired_size=2,
@@ -1018,12 +1018,12 @@ nodegroup_0 = aws.eks.NodeGroup(
 )
 
 nodegroup_1 = aws.eks.NodeGroup(
-    "ng-1-production-eksworkers",
+    "ng-1-staging-eksworkers",
     cluster_name=cluster_name,
     ami_type=nodegroup_ami_type,
     instance_types=[nodegroup_instance_type],
     disk_size=200,
-    labels={"env": "production"},
+    labels={"env": "staging"},
     tags={"costid": "devops"},
     scaling_config=aws.eks.NodeGroupScalingConfigArgs(
         desired_size=2,
